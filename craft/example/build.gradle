@@ -1,0 +1,7 @@
+ext.shiroiModule = true
+ext.craftModule = true
+
+apply plugin: 'kotlin'
+dependencies {
+    compile project(':craft')
+}

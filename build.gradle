@@ -1,0 +1,59 @@
+group 'me.ddevil'
+version '4.0.0-SNAPSHOT'
+buildscript {
+    ext.kotlin_version = '1.2.10'
+    ext.shiroiModuleName = 'shiroiModule'
+    ext.craftModuleName = 'craftModule'
+    ext.kotlin_utils_version = '1.0.2-SNAPSHOT'
+    ext.bukkit_version = "1.12.2-R0.1-SNAPSHOT"
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    }
+}
+
+allprojects {
+    afterEvaluate {
+        def isShiroi = it.ext.has(shiroiModuleName)
+        def isCraft = it.ext.has(craftModuleName)
+        if (isShiroi || isCraft) {
+            it.plugins.apply('kotlin')
+            repositories {
+                mavenCentral()
+                maven {
+                    name = 'ddevil'
+                    url = 'http://repo.imddevil.com/repository/maven-snapshots/'
+                }
+            }
+            dependencies {
+                compile(project(":core"))
+                compile("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+                compile("me.ddevil:kotlin-utils:$kotlin_utils_version")
+            }
+            compileKotlin {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+            compileTestKotlin {
+                kotlinOptions {
+                    jvmTarget = "1.8"
+                }
+            }
+        }
+        if (isCraft) {
+            repositories {
+                maven {
+                    name = 'bukkit'
+                    url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
+                }
+            }
+            dependencies {
+
+                compile("org.bukkit:bukkit:$bukkit_version")
+            }
+        }
+    }
+}

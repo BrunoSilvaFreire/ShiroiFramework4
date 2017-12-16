@@ -1,0 +1,2 @@
+include(':ui', ':fx', ':craft', ':craft:example', ':core')
+rootProject.name = 'shiroi-framework'
