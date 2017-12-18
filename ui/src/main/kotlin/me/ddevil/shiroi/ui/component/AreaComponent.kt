@@ -2,11 +2,19 @@ package me.ddevil.shiroi.ui.component
 
 import me.ddevil.shiroi.ui.component.exception.OutOfBoundsException
 import me.ddevil.util.math.vector.Vector2i
+import org.bukkit.inventory.ItemStack
 
-abstract class AreaComponent(
+abstract class AreaComponent
+@JvmOverloads
+constructor(
         val width: Int,
-        val height: Int
+        val height: Int,
+        var background: ItemStack? = null
 ) : Component() {
+    override fun render(handle: DrawingHandle, normalizedInitialIndex: Int) {
+
+    }
+
     override fun placeInto(handle: ContainerHandle, initialIndex: Int) {
         for (x in 0..width) {
             for (y in 0..height) {
@@ -18,6 +26,10 @@ abstract class AreaComponent(
     val size: Vector2i
         get() {
             return Vector2i(width, height)
+        }
+    val area: Int
+        get() {
+            return width * height
         }
 
     fun isOutOfBounds(position: Vector2i): Boolean {

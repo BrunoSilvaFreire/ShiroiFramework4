@@ -10,7 +10,7 @@ class ContainerHandle(private val container: Container) {
     }
 
     fun attemptSet(index: Int, component: Component): Boolean {
-        if (container.hasComponentIn(index)) {
+        if (container.contains(index)) {
             return false
         }
         container.components[index] = component
@@ -25,3 +25,4 @@ class ContainerHandle(private val container: Container) {
         return attemptSet(container.indexOf(x, y), component)
     }
 }
+

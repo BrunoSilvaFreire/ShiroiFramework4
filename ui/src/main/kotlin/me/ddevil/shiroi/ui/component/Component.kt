@@ -1,6 +1,6 @@
 package me.ddevil.shiroi.ui.component
 
 abstract class Component {
-    internal abstract fun placeInto(handle: ContainerHandle, initialIndex: Int)
-    //abstract fun render(normalizedInitialIndex: Int)
+    abstract fun placeInto(handle: ContainerHandle, initialIndex: Int)
+    abstract fun render(handle: DrawingHandle, normalizedInitialIndex: Int)
 }
