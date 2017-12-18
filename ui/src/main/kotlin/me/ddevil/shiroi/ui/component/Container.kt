@@ -13,13 +13,19 @@ constructor(
 
 
     internal val components = arrayOfNulls<Component>(width * height)
-    protected val handle = ContainerHandle(this)
+    private val handle = ContainerHandle(this)
+
     @JvmOverloads
     fun render(handle: DrawingHandle, inventoryStartIndex: Int, minX: Int, minY: Int, maxX: Int = width, maxY: Int = height) {
+        val bg = background
         for (x in minX..maxX) {
             for (y in minY..maxY) {
-                val component = this[x, y] ?: continue
-                component.render(handle, inventoryStartIndex + indexOf(x, y))
+                val component = getUnsafe(x, y)
+                if (component != null) {
+                    component.render(handle, inventoryStartIndex + indexOf(x, y))
+                } else if (bg != null) {
+                    handle[x, y] = bg
+                }
             }
         }
     }
@@ -41,9 +47,11 @@ constructor(
         this[position.x, position.y] = component
     }
 
+    fun getUnsafe(x: Int, y: Int) = this[indexOf(x, y)]
+
     operator fun get(x: Int, y: Int): Component? {
         checkOutOfBounds(x, y)
-        return this[indexOf(x, y)]
+        return getUnsafe(x, y)
     }
 
     operator fun get(index: Int): Component? {
